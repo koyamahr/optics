@@ -36,12 +36,12 @@ function diagram(item, hero=false) {
 let category='all', query='';
 const dialog=$('detail');
 function render() {
-  const normalize=s=>s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const items=OPTICS.filter(o=>(category==='all'||o.category===category)&&normalize([o.name,o.en,o.tag,o.description,o.meta,CATEGORIES[o.category]].join(' ')).includes(normalize(query)));
+  const normalize=s=>s.normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/[\u3041-\u3096]/g,c=>String.fromCharCode(c.charCodeAt(0)+0x60)).toLowerCase();
+  const items=OPTICS.filter(o=>(category==='all'||o.category===category)&&normalize([o.name,o.en,...(o.aliases||[]),o.tag,o.description,o.meta,CATEGORIES[o.category]].join(' ')).includes(normalize(query)));
   $('gallery').innerHTML=items.map(o=>`<button class="card" data-id="${o.id}" data-category="${o.category}" aria-label="${escapeHTML(o.name)}の詳細を見る"><div class="card-art"><span class="card-number">${String(OPTICS.indexOf(o)+1).padStart(2,'0')}</span><span class="card-category">${CATEGORIES[o.category]}</span>${diagram(o)}</div><div class="card-body"><p class="card-en">${escapeHTML(o.en)}</p><h3>${o.name}</h3><p class="card-description">${o.description}</p><div class="card-bottom"><span>${o.meta}</span><span class="card-arrow" aria-hidden="true">↗</span></div></div></button>`).join('');
   $('result-count').textContent=`${String(items.length).padStart(2,'0')} SYSTEMS / ${CATEGORIES[category]||'すべての光学系'}`;
   $('empty').hidden=items.length>0;
-  document.querySelectorAll('.filter').forEach(b=>{const active=b.dataset.category===category;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+  document.querySelectorAll('.filter').forEach(b=>{const active=b.dataset.category===category;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));b.querySelector('span').textContent=OPTICS.filter(o=>b.dataset.category==='all'||o.category===b.dataset.category).length;});
 }
 function openDetail(id) {
   const o=OPTICS.find(o=>o.id===id); if(!o)return;
