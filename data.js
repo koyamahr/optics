@@ -1,0 +1,27 @@
+/* Original conceptual diagrams. These are not optical prescriptions. */
+const SOURCES = {
+  achromat: ['Edmund Optics — Aberrations', 'https://www.edmundoptics.com.sg/knowledge-center/application-notes/imaging/how-aberrations-affect-machine-vision-lenses/'],
+  microscope: ['Evident — Optical Aberrations', 'https://lifescience.evidentscientific.com.cn/data/olympusmicro/primer/anatomy/aberrations.html'],
+  eyepiece: ['Edmund Optics — Choosing the Correct Eyepiece', 'https://www.edmundoptics.eu/knowledge-center/application-notes/microscopy/choosing-the-correct-eyepiece/'],
+  camera: ['Nikon — NIKKOR 千夜一夜物語 第八十一夜', 'https://imaging.nikon.com/imaging/information/story/0081/'],
+  gauss: ['Nikon — NIKKOR 千夜一夜物語 第三十八夜', 'https://imaging.nikon.com/imaging/information/story/0038/index.html'],
+  telescope: ['Celestron — Optical Tubes', 'https://www.celestron.com/blogs/knowledgebase/the-ultimate-guide-to-celestron-optical-tubes'],
+  rc: ['NASA — Hubble vs. Roman', 'https://science.nasa.gov/mission/hubble/observatory/hubble-vs-roman/']
+};
+const CATEGORIES = {objective:'対物レンズ', eyepiece:'アイピース', camera:'カメラレンズ', reflector:'反射望遠鏡'};
+// Lens tuple: [x, semi-aperture, width, front bulge, back bulge, glass index].
+// A positive front bulge bends left; a positive back bulge bends right.
+const OPTICS = [
+  {id:'achromat',category:'objective',name:'アクロマート',en:'Achromatic doublet',meta:'2枚の異種ガラス',tag:'色収差の補正',description:'分散の異なるガラスを組み合わせ、色による焦点位置のずれを抑える対物レンズ。',detail:'典型的な構成は、正のクラウンガラスと負のフリントガラスの組み合わせです。2つの波長の焦点を揃えますが、残存する色収差はあります。ここでは接合型の一例を描いています。',source:'achromat',lenses:[[139,64,15,27,-12,0],[154,64,17,12,-19,1]]},
+  {id:'apochromat',category:'objective',name:'アポクロマート',en:'Apochromatic objective',meta:'3枚構成の模式例',tag:'多波長の補正',description:'複数の波長を考慮して、色収差の補正をさらに進めた光学系。',detail:'ここでは3枚構成の概念を示します。アポクロマートという分類は補正性能に関わるもので、「3枚ならアポクロマート」と決まるわけではありません。実際の枚数や配置は設計によって異なります。',source:'microscope',lenses:[[120,62,14,24,-7,0],[144,62,13,6,-23,1],[167,62,16,12,19,0]]},
+  {id:'microscope',category:'objective',name:'顕微鏡対物レンズ',en:'Microscope objective',meta:'複数群の模式例',tag:'小さな世界の結像',description:'試料の近くで光を集め、微細な構造を像にする複合レンズ。',detail:'高い開口数と収差補正を両立するため、複数のレンズを組み合わせます。この図は複合構成を示す概念図であり、特定の倍率や実製品の構成を再現したものではありません。',source:'microscope',lenses:[[75,24,12,12,0,0],[114,38,12,20,-8,0],[126,38,12,8,-12,1],[170,54,13,24,-10,0],[183,54,13,10,-15,1],[224,59,13,18,17,0]]},
+  {id:'huygens',category:'eyepiece',name:'ホイヘンス',en:'Huygenian eyepiece',meta:'2群2枚',tag:'2枚の平凸レンズ',description:'同じ向きの平凸レンズを2枚配置した、古典的なアイピース。',detail:'どちらの平面も眼側を向きます。対物レンズが作る像面は2枚の間に位置するため、その位置が構造を読むポイントです。図では光は左から右の眼側へ進みます。',source:'eyepiece',lenses:[[108,54,15,28,0,0],[223,36,12,22,0,0]]},
+  {id:'kellner',category:'eyepiece',name:'ケルナー',en:'Kellner eyepiece',meta:'2群3枚',tag:'接合レンズの導入',description:'単レンズの視野レンズと、色消しの眼レンズを組み合わせた方式。',detail:'眼側にアクロマートを用いて色収差を抑えます。シンプルな構成ですが、単レンズだけの方式から補正を一歩進めています。短焦点の設計ではアイレリーフが短くなりやすい傾向があります。',source:'eyepiece',lenses:[[98,54,15,0,24,0],[204,43,13,22,-8,0],[217,43,13,8,0,1]]},
+  {id:'plossl',category:'eyepiece',name:'プローセル',en:'Plössl eyepiece',meta:'2群4枚',tag:'向かい合う接合群',description:'2つの色消し接合レンズを向かい合わせた、対称的な構成。',detail:'2枚ずつの接合群で合計4枚となる代表的な構成です。中央の空気間隔を挟んだ対称性と、各群の接合面に注目してみてください。',source:'eyepiece',lenses:[[107,49,12,0,-12,1],[119,49,14,12,26,0],[207,49,14,26,12,0],[221,49,12,-12,0,1]]},
+  {id:'triplet',category:'camera',name:'トリプレット',en:'Cooke triplet',meta:'3群3枚',tag:'正・負・正の構成',description:'正・負・正の3枚を離して配置する、写真レンズの基本的な方式。',detail:'3つの独立したレンズ群を使う構成です。中央の負レンズを、前後の正レンズで挟みます。図は一般的な構成を表すもので、特定製品の光学処方ではありません。',source:'camera',lenses:[[83,52,14,24,24,0],[161,43,23,-15,-15,1],[233,49,13,22,22,0]],stop:198},
+  {id:'tessar',category:'camera',name:'テッサー',en:'Tessar type',meta:'3群4枚',tag:'後群の接合レンズ',description:'3つのレンズ群のうち、像側の群を2枚の接合レンズにした方式。',detail:'前方の正レンズ、中央の負レンズ、後方の接合群で構成されます。ここでは3群4枚の代表的な構成を示します。写真レンズの小型化を考えるうえで興味深い方式です。',source:'camera',lenses:[[81,52,14,24,24,0],[158,42,23,-15,-15,1],[227,48,12,0,-15,1],[239,48,14,15,25,0]],stop:196},
+  {id:'double-gauss',category:'camera',name:'ダブルガウス',en:'Double Gauss',meta:'4群6枚の模式例',tag:'絞りを挟む対称性',description:'絞りの前後に、互いに対応するレンズ群を配置する方式。',detail:'中央の絞りを挟んだおおよその対称性が特徴です。ここでは4群6枚の概念図を示しています。実際の派生設計には非対称化したものや、枚数を増やしたものもあります。',source:'gauss',lenses:[[65,55,13,25,10,0],[108,51,15,25,-7,0],[123,51,21,7,-27,1],[208,51,21,-27,7,1],[229,51,15,-7,25,0],[287,55,13,10,25,0]],stop:175},
+  {id:'newtonian',category:'reflector',name:'ニュートン式',en:'Newtonian reflector',meta:'主鏡 ＋ 平面副鏡',tag:'側面へ折り返す',description:'凹面の主鏡で集めた光を、斜めに置いた平面副鏡で側方へ導く方式。',detail:'主鏡から戻る光を平面副鏡で曲げ、鏡筒の側面で観察します。屈折レンズのような色収差を主鏡は生じませんが、視野周辺の収差などは別途考慮する必要があります。',source:'telescope',mirror:'newtonian'},
+  {id:'schmidt-cassegrain',category:'reflector',name:'シュミットカセグレン',en:'Schmidt–Cassegrain',meta:'補正板 ＋ 2枚の鏡',tag:'屈折反射光学系',description:'補正板と主鏡・副鏡を組み合わせ、折り返した光を主鏡の背後へ導く方式。',detail:'前面のシュミット補正板で収差を補正し、2枚の鏡で光路を折り返します。レンズと鏡を併用する屈折反射方式です。この図の補正板の形は、役割を示すため単純化しています。',source:'telescope',mirror:'schmidt'},
+  {id:'ritchey-chretien',category:'reflector',name:'リッチー・クレチアン',en:'Ritchey–Chrétien',meta:'双曲面主鏡 ＋ 副鏡',tag:'2つの双曲面',description:'主鏡と副鏡の両方に双曲面を用いる、カセグレン系の光学方式。',detail:'光は主鏡、副鏡の順で反射し、主鏡中央の穴を通って背後に達します。ハッブル宇宙望遠鏡もこの方式です。模式図の曲線は、双曲面を数値的に再現したものではありません。',source:'rc',mirror:'rc'}
+];
