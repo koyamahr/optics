@@ -1,6 +1,10 @@
 # Optical Atlas — 光学系のギャラリー
 
-対物レンズ、アイピース、カメラレンズ、反射望遠鏡の構造を巡る、日本語の静的ギャラリー。14方式のオリジナルSVG模式図、カテゴリ絞り込み、キーワード検索、詳細ダイアログ、回折限界MTFのインタラクティブ表示を備えています。アイピースはハイゲン（ホイヘンス）、ミッテンゼー・ハイゲン（MH型）、ケルナー、プローセル、アッベ式オルソスコピックの5方式です。名称の別名と、ひらがな・カタカナで検索できます。
+光学方式と実製品46項目を巡る、日本語の静的ギャラリー。対物7、アイピース13、カメラレンズ16、反射・屈折反射系10項目を収録しています。方式のSVG模式図、実製品の公表仕様、カテゴリ・メーカー系統の絞り込み、別名・複数語検索、詳細ダイアログ、回折限界MTFの操作画面を備えています。
+
+ZEISS系はテッサー、プラナー、ゾナー、ビオゴン、ディスタゴン、ホロゴンなど。Leica / Leitzはエルマー5cm f/3.5、ズミクロンM 50mm f/2（No.11826）、APOズミクロンM 50mm f/2 ASPH.、ズミルックスM 50mm f/1.4 ASPH.（0.45m対応型）、ノクティルックスM 50mm f/0.95 ASPH.（No.11602）を収録しています。
+
+系統名は歴史的な関連を示し、その方式を用いるすべての製品の製造元を表しません。実製品は具体的なモデルを対象にし、内部形状の推定図の代わりに公表仕様と一次資料へのリンクを掲載しています。エルマーの歴史的個体カードは焦点距離・開放F値を表示し、構成枚数は記載していません。
 
 ## ローカルで表示
 
@@ -14,7 +18,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 ## GitHub Pages
 
-想定する独立リポジトリは `koyamahr/optics`、その場合のURLは `https://koyamahr.github.io/optics/` です（公開を保証するものではありません）。
+公開先は [koyamahr.github.io/optics](https://koyamahr.github.io/optics/)、リポジトリは [koyamahr/optics](https://github.com/koyamahr/optics) です。GitHub Pagesはmainブランチのルートから公開しています。
 
 1. GitHubリポジトリに、このフォルダのファイルをpushします。
 2. Settings → Pages → Build and deployment で **Deploy from a branch** を選びます。
@@ -24,7 +28,9 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 ## 内容の追加
 
-`data.js` の `OPTICS` 配列に追加します。`category` は `objective` / `eyepiece` / `camera` / `reflector`。`lenses` は模式図を描くための座標であり、光学設計値ではありません。参考資料は `SOURCES` に記載します。
+`data.js` が基礎データ、`catalog.js` が追加方式・製品・系統のデータです。`category` は `objective` / `eyepiece` / `camera` / `reflector`。`lenses` は模式図の座標で、光学設計値ではありません。実製品は `kind: 'product'` とし、確認できた `elements`・`groups`、`focal`・`aperture` を記載します。参考資料は `SOURCES`、メーカー・設計系統は `BRANDS` に登録します。
+
+フィルターの件数はデータから計算します。総数の紹介文とREADMEは追加時に更新してください。公開データの変更時は、HTML内のスクリプト・スタイルのバージョン文字列も更新し、旧版キャッシュとの混在を防ぎます。
 
 ## 図とMTFの範囲
 

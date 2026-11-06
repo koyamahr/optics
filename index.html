@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="対物レンズ、アイピース、カメラレンズ、反射望遠鏡。光学系の構造を、オリジナルの断面模式図で巡るギャラリー。">
+  <meta name="description" content="ライカ、ツァイス、対物レンズ、アイピース、反射・屈折反射望遠鏡。46の光学方式と代表モデルを、模式図と公表資料で巡るギャラリー。">
   <meta name="theme-color" content="#f4f3ed">
   <title>光学系のギャラリー — Optical Atlas</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css">
-  <script src="./data.js?v=20261106-eyepieces" defer></script>
-  <script src="./app.js?v=20261106-eyepieces" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=20261106-atlas46">
+  <script src="./data.js?v=20261106-atlas46" defer></script>
+  <script src="./catalog.js?v=20261106-atlas46" defer></script>
+  <script src="./app.js?v=20261106-atlas46" defer></script>
 </head>
 <body>
   <header class="site-header wrap">
@@ -21,7 +22,7 @@
       <div class="hero-copy">
         <p class="eyebrow"><span class="tiny-dot"></span> A FIELD GUIDE TO OPTICAL SYSTEMS</p>
         <h1 id="hero-title">光を曲げる。<br>世界が、見えてくる。</h1>
-        <p class="hero-description">小さなアイピースから、星を集める望遠鏡まで。<br>レンズと鏡の組み合わせを、かたちから巡る光学図鑑。</p>
+        <p class="hero-description">小さなアイピースから、ライカ、ツァイス、星を集める望遠鏡まで。<br>46の光学方式と代表モデルを、かたちと資料から巡る光学図鑑。</p>
         <a href="#collection" class="explore-link">コレクションを見る <span aria-hidden="true">↓</span></a>
       </div>
       <figure class="hero-figure">
@@ -34,14 +35,15 @@
       <div class="section-heading"><div><p class="eyebrow">THE COLLECTION</p><h2 id="collection-title">光学系を探す<span id="total-count"></span></h2></div><p class="collection-note">ひとつのかたちに、ひとつの発想。</p></div>
       <div class="tools">
         <div class="filters" role="group" aria-label="光学系の分類">
-          <button class="filter active" data-category="all" aria-pressed="true">すべて <span>14</span></button>
-          <button class="filter" data-category="objective" aria-pressed="false">対物レンズ <span>3</span></button>
-          <button class="filter" data-category="eyepiece" aria-pressed="false">アイピース <span>5</span></button>
-          <button class="filter" data-category="camera" aria-pressed="false">カメラレンズ <span>3</span></button>
-          <button class="filter" data-category="reflector" aria-pressed="false">反射望遠鏡 <span>3</span></button>
+          <button class="filter active" data-category="all" aria-pressed="true">すべて <span>46</span></button>
+          <button class="filter" data-category="objective" aria-pressed="false">対物レンズ <span>7</span></button>
+          <button class="filter" data-category="eyepiece" aria-pressed="false">アイピース <span>13</span></button>
+          <button class="filter" data-category="camera" aria-pressed="false">カメラレンズ <span>16</span></button>
+          <button class="filter" data-category="reflector" aria-pressed="false">反射・屈折反射 <span>10</span></button>
         </div>
-        <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="名称・キーワードで検索" aria-label="名称・キーワードで検索" autocomplete="off"></label>
+        <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="名称・メーカーで検索" aria-label="名称・キーワードで検索" autocomplete="off"></label>
       </div>
+      <div class="catalog-options"><label>メーカー・設計の系統 <select id="brand-filter"><option value="all">すべての系統</option></select></label><span>方式の模式図 / 実製品の公表仕様</span></div>
       <div class="results-bar"><p id="result-count" role="status" aria-live="polite"></p><label class="ray-toggle"><input id="show-rays" type="checkbox" checked><span class="switch" aria-hidden="true"></span>光路の模式線</label></div>
       <div id="gallery" class="gallery"></div>
       <div id="empty" class="empty" hidden><p>該当する光学系がありません。</p><button id="reset" class="text-button">絞り込みをリセットする ↗</button></div>
@@ -60,7 +62,7 @@
     </section>
     <section id="about" class="about wrap" aria-labelledby="about-title">
       <div><p class="eyebrow">ABOUT THIS ATLAS</p><h2 id="about-title">構造を知ると、<br>見ることが面白くなる。</h2></div>
-      <div class="about-copy"><p>このギャラリーは、代表的な光学方式の組み合わせを眺めるための、小さな図鑑です。カードを開くと、構成の見どころと参考資料を確認できます。</p><p>掲載図は構造の理解を助けるオリジナルの模式図です。曲率、厚み、間隔、光路は縮尺どおりではなく、実機の設計図や数値計算による光線追跡を示すものではありません。レンズの枚数・構成は方式の一例です。</p><div class="legend"><span><i class="legend-glass"></i>レンズ</span><span><i class="legend-mirror"></i>反射鏡</span><span><i class="legend-ray"></i>光路の模式線</span></div></div>
+      <div class="about-copy"><p>代表的な光学方式と、メーカーを明記した実製品を巡る図鑑です。メーカー・設計の系統でも探せます。ツァイスなどの系統表示は歴史的な関連を示し、その方式を使うすべての製品の製造元を示すものではありません。</p><p>方式の図はオリジナルの模式図です。曲率、厚み、間隔、光路は縮尺どおりではなく、数値計算による光線追跡ではありません。実製品のカードは焦点距離・開放F値・公表された構成枚数を示し、構成図やMTFは公式資料へ案内します。特許例と市販品の仕様は区別しています。</p><div class="legend"><span><i class="legend-glass"></i>レンズ</span><span><i class="legend-mirror"></i>反射鏡</span><span><i class="legend-ray"></i>光路の模式線</span></div></div>
     </section>
   </main>
   <footer class="site-footer wrap"><span>◉ OPTICAL ATLAS</span><span>光の通り道を、少しずつ。</span><a href="#">ページの先頭へ ↑</a></footer>

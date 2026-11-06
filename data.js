@@ -9,7 +9,7 @@ const SOURCES = {
   telescope: ['Celestron — Optical Tubes', 'https://www.celestron.com/blogs/knowledgebase/the-ultimate-guide-to-celestron-optical-tubes'],
   rc: ['NASA — Hubble vs. Roman', 'https://science.nasa.gov/mission/hubble/observatory/hubble-vs-roman/']
 };
-const CATEGORIES = {objective:'対物レンズ', eyepiece:'アイピース', camera:'カメラレンズ', reflector:'反射望遠鏡'};
+const CATEGORIES = {objective:'対物レンズ', eyepiece:'アイピース', camera:'カメラレンズ', reflector:'反射・屈折反射'};
 // Lens tuple: [x, semi-aperture, width, front bulge, back bulge, glass index].
 // A positive front bulge bends left; a positive back bulge bends right.
 const OPTICS = [
